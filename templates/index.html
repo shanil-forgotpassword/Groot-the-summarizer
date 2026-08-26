@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Groot - Text Summarizer</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>Groot</h1>
+        <p>AI Text Summarizer</p>
+    </header>
+
+
+    <!-- Conversation area -->
+
+    <main class="chat-container">
+
+        {% if conversations %}
+
+            {% for conversation in conversations %}
+                <!-- User message -->
+                <div class="message user-message">
+
+                    <div class="name">
+                        You
+                    </div>
+
+                    <div class="message-box">
+
+                        {% if conversation.filename %}
+
+                            📄 {{ conversation.filename }}
+
+                        {% else %}
+
+                            {{ conversation.text }}
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- Groot response -->
+
+                <div class="message groot-message">
+
+                    <div class="name">
+                        Groot
+                    </div>
+
+                    <div class="message-box">
+                        {{ conversation.summary }}
+                    </div>
+
+                </div>
+
+            {% endfor %}
+        {% endif %}
+
+    </main>
+
+
+    <!-- Input area -->
+
+    <footer class="input-area">
+
+        <form
+            action="/summarize"
+            method="POST"
+            enctype="multipart/form-data"
+        >
+
+            <div class="input-box">
+
+                <label for="file" class="plus-button">
+                    +
+                </label>
+
+                <input
+                    type="file"
+                    id="file"
+                    name="file"
+                    accept=".txt,.pdf,.docx"
+                    hidden
+                >
+
+                <textarea
+                    name="text"
+                    placeholder="Message Groot..."
+                    rows="1"
+                ></textarea>
+
+                <button type="submit" class="send-button">
+                    ↑
+                </button>
+
+            </div>
+
+            <p class="supported">
+                Supports TXT, PDF and DOCX
+            </p>
+
+        </form>
+
+    </footer>
+
+</body>
+
+</html>
